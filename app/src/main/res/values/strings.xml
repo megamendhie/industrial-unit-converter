@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Industrial Units Converter</string>
+    <array name="lenght_units">
+        <item>mi</item>
+        <item>ft</item>
+        <item>mm</item>
+        <item>cm</item>
+        <item>dm</item>
+        <item>m</item>
+        <item>dam</item>
+        <item>hm</item>
+        <item>Km</item>
+    </array>
+    <array name="energy_units">
+        <item>mi</item>
+        <item>eft</item>
+        <item>mem</item>
+        <item>ecm</item>
+        <item>dme</item>
+        <item>me</item>
+        <item>dem</item>
+        <item>hme</item>
+        <item>eKm</item>
+    </array>
+</resources>
