@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,13 +21,22 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 
 import adapters.UnitsAdapter;
 import converters.GeneralUnitConverter;
 import models.Unit;
+import models.User;
+import utils.FirebaseUtil;
 
 import static models.Names.AREA;
 import static models.Names.CURRENT;
@@ -52,12 +62,12 @@ import static models.Names.UNITS_PRESSURE;
 import static models.Names.UNITS_SPEED;
 import static models.Names.UNITS_TEMPERATURE;
 import static models.Names.UNITS_VOLUME;
+import static models.Names.USERS;
 import static models.Names.VOLUME;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private EditText edtUnit, edtInput;
     private Spinner spnUnit;
-    private LinearLayout[] lnr = new LinearLayout[12];
     private View viewholder;
     private TextView txtTitle;
     private String[] stringArray=null;
@@ -84,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+        TextView txtName = header.findViewById(R.id.txtName);
 
         lstUnits = findViewById(R.id.lstUnits);
         edtInput = findViewById(R.id.edtInput);
@@ -152,6 +163,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+        FirebaseUtil.getAuth().addAuthStateListener(firebaseAuth -> {
+            if(firebaseAuth.getCurrentUser()==null)
+                txtName.setText("Name");
+            else
+                FirebaseUtil.getDatabase().collection(USERS).document(FirebaseUtil.getAuth().getCurrentUser().getUid())
+                        .get().addOnCompleteListener(task -> {
+                            if(task.isSuccessful()&&task.getResult()!=null){
+                                User profile = task.getResult().toObject(User.class);
+                                txtName.setText(String.format("%s %s", profile.getFirstName(), profile.getLastName()));
+                            }
+                        });
+
+        });
+    }
+
+    private void openProfile(){
+        if(FirebaseUtil.getAuth().getCurrentUser()==null)
+            startActivity(new Intent(this, LoginActivity.class));
+        else
+            startActivity(new Intent(this, ProfileActivity.class));
     }
 
     private void convert(){
@@ -210,6 +242,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.nav_profile:
+                openProfile(); break;
+            case R.id.nav_logout:
+                showLogoutPrompt(); break;
+        }
         return false;
+    }
+
+    private void showLogoutPrompt() {
+        if (FirebaseUtil.getAuth().getCurrentUser() != null) {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getResources().getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            GoogleSignInClient mGoogleSignInClient= GoogleSignIn.getClient(MainActivity.this, gso);
+
+            FirebaseUtil.getAuth().signOut();
+            mGoogleSignInClient.signOut();
+            finish();
+        }
     }
 }

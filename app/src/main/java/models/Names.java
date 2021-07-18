@@ -1,6 +1,11 @@
 package models;
 
 public class Names {
+    public static final String EMAIL = "email4321";
+    public static final String PASSWORD = "password4321";
+    public static final String PROFILE = "profile";
+    public static final String USERS = "users";
+
     public final static String LENGTH = "length";
     public final static String AREA = "area";
     public final static String MASS = "mass";
