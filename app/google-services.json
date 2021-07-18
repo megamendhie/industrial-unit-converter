@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "848536002120",
+    "project_id": "industrial-units-converter",
+    "storage_bucket": "industrial-units-converter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848536002120:android:a1eaff19627d043090c27d",
+        "android_client_info": {
+          "package_name": "com.sqube.industrialunitsconverter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848536002120-cho8fm6jh48nbji7p1t10la46usiaok7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sqube.industrialunitsconverter",
+            "certificate_hash": "c103a20c17c1b60e591341d9a158166b9f0353ca"
+          }
+        },
+        {
+          "client_id": "848536002120-3vd16v1n37mfcqorivo8ed7tq1rlt12r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCduT35u9avCioW4R28eNdAB_r6gz0OTIM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848536002120-3vd16v1n37mfcqorivo8ed7tq1rlt12r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -13,6 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -29,7 +31,14 @@ android {
 }
 
 dependencies {
-
+    implementation platform('com.google.firebase:firebase-bom:28.2.1') //Firebase BoM
+    implementation 'com.google.firebase:firebase-analytics' //Firebase Analytics
+    implementation 'com.google.firebase:firebase-auth'       //Authentication
+    implementation 'com.google.firebase:firebase-firestore'  //Cloud Firestore
+    implementation 'com.google.firebase:firebase-storage'    //Storage
+    implementation 'com.firebaseui:firebase-ui-auth:7.1.1'      //Authentication UI
+    implementation 'com.firebaseui:firebase-ui-storage:7.1.1'   //Storage UI
+    implementation 'com.firebaseui:firebase-ui-firestore:7.1.1' //Firestore UI
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
